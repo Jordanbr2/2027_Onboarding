@@ -1,5 +1,5 @@
 /**
-  ******************************************************************************
+  *******************************************************************************
   * @file    i2C_dac.c
   * @brief   MCP4728 I2C DAC driver starter.
   * @details Three TODOs to complete, in the order i2cDacSetCode calls them:
@@ -8,7 +8,7 @@
   *
   *          i2cDacProbe works before any of them do - run it from the CLI to
   *          confirm the part answers on the bus before debugging your frame.
-  ******************************************************************************
+  *******************************************************************************
   */
 
 #include "i2C_dac.h"

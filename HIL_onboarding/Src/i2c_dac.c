@@ -40,8 +40,8 @@
 #define MCP4728_C0 0U
 #define MCP4728_W1 0U
 #define MCP4728_W0 0U
-#define MCP4728_DAC1 0U
-#define MCP4728_DAC0 0U
+#define MCP4728_CHANNEL_A 0U
+#define MCP4728_CHANNEL_B 1U
 #define MCP4728_UDAC 1U
 #define MCP4728_VREF 0U
 #define MCP4728_PD1 0U
@@ -66,8 +66,7 @@ static HAL_StatusTypeDef buildOutputFrame(uint16_t code, I2cDacFrame_t *frame)
                                 (MCP4728_C0 << 5U) |
                                 (MCP4728_W1 << 4U) |
                                 (MCP4728_W0 << 3U) |
-                                (MCP4728_DAC1 << 2U) |
-                                (MCP4728_DAC0 << 1U) |
+                                (MCP4728_CHANNEL_A << 1U) |
                                 MCP4728_UDAC);
     frame->bytes[1] = (uint8_t)((MCP4728_VREF << 7U) |
                                 (MCP4728_PD1 << 6U) |
@@ -75,7 +74,20 @@ static HAL_StatusTypeDef buildOutputFrame(uint16_t code, I2cDacFrame_t *frame)
                                 (MCP4728_GX << 4U) |
                                 ((code >> 8U) & 0x0FU));
     frame->bytes[2] = (uint8_t)(code & 0xFFU);
-    frame->length = 3U;
+    frame->bytes[3] = (uint8_t)((MCP4728_C2 << 7U) |
+                                (MCP4728_C1 << 6U) |
+                                (MCP4728_C0 << 5U) |
+                                (MCP4728_W1 << 4U) |
+                                (MCP4728_W0 << 3U) |
+                                (MCP4728_CHANNEL_B << 1U) |
+                                MCP4728_UDAC);
+    frame->bytes[4] = (uint8_t)((MCP4728_VREF << 7U) |
+                                (MCP4728_PD1 << 6U) |
+                                (MCP4728_PD0 << 5U) |
+                                (MCP4728_GX << 4U) |
+                                ((code >> 8U) & 0x0FU));
+    frame->bytes[5] = (uint8_t)(code & 0xFFU);
+    frame->length = 6U;
     return HAL_OK;
 }
 
